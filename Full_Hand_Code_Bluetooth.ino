@@ -1,13 +1,13 @@
 #include "arduino_secrets.h"
 
 // The individual fingers will be indexed according to the hex code number input into 'any' external BLE program (I used LightBlue on the Iphone 11)
-// The smaller number correlates to the original set position of the servo, whilst the larger number will move the servo to the preset position
+// The smaller number correlates to the original set position of the servo, while the larger number will move the servo to the preset position
 
-// Servo/Pin 1 = Pinky  ; 0(Original Position) & 1(Set Position)
-// Servo/Pin 2 = Ring   ; 2(Original Position) & 3(Set Position)
-// Servo/Pin 3 = Middle ; 4(Original Position) & 5(Set Position)
-// Servo/Pin 4 = Index  ; 6(Original Position) & 7(Set Position)
-// Servo/Pin 5 = Thumb  ; 8(Original Position) & 9(Set Position)
+// Servo 1 = Pinky  ; 0(Original Position) & 1(Set Position)
+// Servo 2 = Ring   ; 2(Original Position) & 3(Set Position)
+// Servo 3 = Middle ; 4(Original Position) & 5(Set Position)
+// Servo 4 = Index  ; 6(Original Position) & 7(Set Position)
+// Servo 5 = Thumb  ; 8(Original Position) & 9(Set Position)
 
 
 #include <Servo.h> // Include the servo library
