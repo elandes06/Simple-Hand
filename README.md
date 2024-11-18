@@ -18,3 +18,5 @@ The joints of the fingers use a set of 3mm nuts, bolts, and washers to aid in sm
 
 For the physical hand, I took heavy inspiration from Gaël Langevin on InMoov for most of the physical attributes of the hand and have linked his site below.
 https://tinyurl.com/24frtkhj 
+
+3D models: https://github.com/elandes06/Simple-Hand
