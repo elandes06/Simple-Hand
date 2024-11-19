@@ -1,6 +1,8 @@
 // The individual fingers will be indexed according to the hex code number input into 'any' external BLE program (I used LightBlue on the iPhone 11)
 // The smaller number correlates to the original set position of the servo, while the larger number will move the servo to the preset position
 
+// On startup servos are actuated 1-5 in numerical order, once the previous servo reaches half rotation the next servo starts 
+// Once complete all servos go to the point of origin
 // Servo 1 = Pinky  ; 0(Original Position) & 1(Set Position)
 // Servo 2 = Ring   ; 2(Original Position) & 3(Set Position)
 // Servo 3 = Middle ; 4(Original Position) & 5(Set Position)
@@ -23,6 +25,27 @@ int servoPins[5] = {0, 1, 2, 3, 4}; // Control pins for the servos
 BLEService controlService("12345678-1234-1234-1234-123456789abc"); // Custom service UUID
 BLEByteCharacteristic commandCharacteristic("abcdef01-1234-1234-1234-123456789abc", BLERead | BLEWrite);
 
+void startupSequence() {
+  // Sequentially actuate servos 1-5, waiting for each to reach 90 degrees
+  for (int i = 0; i < 5; i++) {
+    Serial.print("Actuating Servo ");
+    Serial.println(i + 1);
+    servos[i].write(180); // Actuate servo to full range
+
+    // Wait for servo to reach 90 degrees (approximation)
+    delay(500); // Adjust delay if servos are slower/faster
+  }
+
+  // Reset all servos to original position
+  Serial.println("Resetting all servos to original position...");
+  for (int i = 0; i < 5; i++) {
+    servos[i].write(0); // Move servo back to 0 degrees
+  }
+
+  // Wait to ensure all servos return to original position
+  delay(1000);
+}
+
 void setup() {
   Serial.begin(9600);  // Initialize serial communication for debugging
   while (!Serial);
@@ -32,6 +55,9 @@ void setup() {
     servos[i].attach(servoPins[i]);
     servos[i].write(0); // Set each servo to its original position
   }
+
+  // Perform startup sequence
+  startupSequence();
 
   if (!BLE.begin()) {  // Initialize Bluetooth
     Serial.println("Starting BLE failed!");
