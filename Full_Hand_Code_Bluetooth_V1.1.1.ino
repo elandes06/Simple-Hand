@@ -1,6 +1,9 @@
 // The individual fingers will be indexed according to the hex code number input into 'any' external BLE program (I used LightBlue on the iPhone 11)
 // The smaller number correlates to the original set position of the servo, while the larger number will move the servo to the preset position
 
+// Power LED is located on pin 5 
+// Bluetooth LED is located on pin 6, and lights when connected to an external system
+
 // On startup servos are actuated 1-5 in numerical order, once the previous servo reaches half rotation the next servo starts 
 // Once complete all servos go to the point of origin
 // Servo 1 = Pinky  ; 0(Original Position) & 1(Set Position)
@@ -14,12 +17,17 @@
 // Hex Code 13 = Evan (2,3)
 // Hex Code 14 = Thumbs Up (1,2,3,4)
 // Hex Code 15 = Eli (2,3,4)
+// Hex Code 16 = Reset ()
 
 #include <Servo.h>
 #include <ArduinoBLE.h> // Include the Bluetooth library for Uno R4 WiFi
 
 Servo servos[5]; // Array to hold 5 servo objects
 int servoPins[5] = {0, 1, 2, 3, 4}; // Control pins for the servos
+
+// LED pins
+const int powerLED = 5;
+const int bluetoothLED = 6;
 
 // Define the Bluetooth service and characteristic
 BLEService controlService("12345678-1234-1234-1234-123456789abc"); // Custom service UUID
@@ -49,6 +57,13 @@ void startupSequence() {
 void setup() {
   Serial.begin(9600);  // Initialize serial communication for debugging
   while (!Serial);
+
+  // Configure LED pins
+  pinMode(powerLED, OUTPUT);
+  pinMode(bluetoothLED, OUTPUT);
+
+  // Turn on power LED
+  digitalWrite(powerLED, HIGH);
 
   // Attach the servos to their respective pins and set to original position
   for (int i = 0; i < 5; i++) {
@@ -81,6 +96,9 @@ void loop() {
   if (central) {
     Serial.print("Connected to central: ");
     Serial.println(central.address());
+
+    // Turn on Bluetooth connection LED
+    digitalWrite(bluetoothLED, HIGH);
 
     while (central.connected()) {
       if (commandCharacteristic.written()) { // Check if the characteristic is written
@@ -147,12 +165,22 @@ void loop() {
             }
             break;
 
+          case 0x16: // Move all servos to position 0
+            Serial.println("Resetting all servos to 0 degrees.");
+            for (int i = 0; i < 5; i++) {
+              servos[i].write(0);
+            }
+            break;
+
           default:
             Serial.println("Invalid command received.");
             break;
         }
       }
     }
+
+    // Turn off Bluetooth connection LED when disconnected
+    digitalWrite(bluetoothLED, LOW);
     Serial.println("Disconnected from central");
   }
 }
