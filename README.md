@@ -1,4 +1,5 @@
 This is a C++ program that I made, using the Arduino Uno R4 Wi-Fi, that uses five individual servo motors to individually move finger depending on different hex values received via an external BLE program
+For the updated code, I determined the amount each servo needed to rotate, as well as how long the arms needed to be by the equation ΔL = 2(r) sin (θ/2) where ΔL = change in length of the string r = length of the arm on the servo and  θ = the amount that the servo needs to rotate
 The hex code to servo goes as follows
 
 Servo 1: 0 (original position) and 1 (180 degrees) = Pinky
