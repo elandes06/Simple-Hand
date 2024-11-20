@@ -1,16 +1,17 @@
 This is a C++ program that I made, using the Arduino Uno R4 Wi-Fi, that uses five individual servo motors to individually move finger depending on different hex values received via an external BLE program
+
 For the updated code, I determined the amount each servo needed to rotate, as well as how long the arms needed to be by the equation ΔL = 2(r) sin (θ/2) where ΔL = change in length of the string r = length of the arm on the servo and  θ = the amount that the servo needs to rotate
 The hex code to servo goes as follows
 
-Servo 1: 0 (original position) and 1 (180 degrees) = Pinky
+Servo 1: 0 (original position) and 1 (set position) = Pinky
 
-Servo 2: 2 (original position) and 3 (180 degrees) = Ring
+Servo 2: 2 (original position) and 3 (set position) = Ring
 
-Servo 3: 4 (original position) and 5 (180 degrees) = Middle
+Servo 3: 4 (original position) and 5 (set position) = Middle
 
-Servo 4: 6 (original position) and 7 (180 degrees) = Index
+Servo 4: 6 (original position) and 7 (set postition) = Index
 
-Servo 5: 8 (original position) and 9 (180 degrees) = Thumb
+Servo 5: 8 (original position) and 9 (set position) = Thumb
 
 The servo numbers correspond to the digital output they are assigned to, Servo # - 1 = pinout.
 The BLE software that I used is BlueLight on the iPhone 11 IOS 18.1.
